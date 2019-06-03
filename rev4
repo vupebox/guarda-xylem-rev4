@@ -1,0 +1,75 @@
+int input1=3;
+int input2=4;
+int output1=5;
+int output2_1=6;
+int output2_2=7;
+
+unsigned long tiempoInicial=0;
+unsigned long tiempo=0;
+
+int estadoEntrada1;
+int estadoEntrada2;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(input1,INPUT);
+  pinMode(input2,INPUT);
+  pinMode(output1,OUTPUT);
+  pinMode(output2_1,OUTPUT);
+  pinMode(output2_2,OUTPUT);
+
+  digitalWrite(output1,HIGH);
+  digitalWrite(output2_1,LOW);
+  digitalWrite(output2_2,LOW);
+  
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  leerEntradas();
+  if( (estadoEntrada1==1)&&(estadoEntrada2==1)){
+      tiempo=millis()-tiempoInicial;
+      if(tiempo > 2000){
+        IniciarProceso();
+      }
+  }else{
+    tiempoInicial=millis(); //Reiniciar conteo
+  }
+  digitalWrite(output1,LOW);
+  digitalWrite(output2_1,LOW);
+  digitalWrite(output2_2,LOW);
+  delay(1);
+  
+}
+
+void leerEntradas(){
+  estadoEntrada1=digitalRead(input1);
+  estadoEntrada2=digitalRead(input2);
+}
+
+void IniciarProceso(){
+  digitalWrite(output1,HIGH); 
+  delay(2000);
+  digitalWrite(output2_1,HIGH);
+  delay(3000);
+  digitalWrite(output2_1,LOW);
+  digitalWrite(output2_2,LOW);
+  
+  leerEntradas();
+  while(estadoEntrada1!=0){ //Espera que palanca se mueva a 0
+    leerEntradas();
+    delay(1);
+  }
+  delay(2000); //Espera 3 segundos
+  while(estadoEntrada1!=1){ //Espera que palanca se mueva a 1
+    leerEntradas();
+    delay(1);
+  }
+  digitalWrite(output2_1,LOW);
+  digitalWrite(output2_2,HIGH);
+  delay(2000);
+  digitalWrite(output1,HIGH);
+
+  tiempoInicial=millis(); //Reiniciar conteo al iniciar el loop
+}
