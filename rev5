@@ -62,7 +62,7 @@ void IniciarProceso(){
     delay(1);
   }
   delay(2000); //Espera 3 segundos
-  while(estadoEntrada1!=1){ //Espera que palanca se mueva a 1
+  while((estadoEntrada1!=1)&&(estadoEntrada2!=1)){ //Espera que palanca se mueva a 1
     leerEntradas();
     delay(1);
   }
