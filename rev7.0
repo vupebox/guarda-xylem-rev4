@@ -18,7 +18,7 @@ void setup() {
   pinMode(output2_1,OUTPUT);
   pinMode(output2_2,OUTPUT);
 
-  digitalWrite(output1,HIGH);
+  digitalWrite(output1,LOW);
   digitalWrite(output2_1,LOW);
   digitalWrite(output2_2,LOW);
   
@@ -30,7 +30,7 @@ void loop() {
   leerEntradas();
   if( (estadoEntrada1==1)&&(estadoEntrada2==1)){
       tiempo=millis()-tiempoInicial;
-      if(tiempo > 2000){
+      if(tiempo > 5000){
         IniciarProceso();
       }
   }else{
@@ -50,26 +50,25 @@ void leerEntradas(){
 
 void IniciarProceso(){
   digitalWrite(output1,HIGH); 
-  delay(2000);
-  digitalWrite(output2_1,HIGH);
   delay(3000);
-  digitalWrite(output2_1,LOW);
+  digitalWrite(output2_1,HIGH);
   digitalWrite(output2_2,LOW);
-  
+  delay(4000);
+   digitalWrite(output2_1,LOW);
   leerEntradas();
   while(estadoEntrada1!=0){ //Espera que palanca se mueva a 0
     leerEntradas();
     delay(1);
   }
-  delay(2000); //Espera 3 segundos
-  while((estadoEntrada1!=1)&&(estadoEntrada2!=1)){ //Espera que palanca se mueva a 1
+  delay(3000); //Espera 3 segundos
+  while(estadoEntrada1!=1){ //Espera que palanca se mueva a 1
     leerEntradas();
     delay(1);
   }
   digitalWrite(output2_1,LOW);
   digitalWrite(output2_2,HIGH);
-  delay(2000);
-  digitalWrite(output1,HIGH);
+  delay(3000);
+  digitalWrite(output1,LOW);
 
   tiempoInicial=millis(); //Reiniciar conteo al iniciar el loop
 }
